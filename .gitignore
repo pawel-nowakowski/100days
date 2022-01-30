@@ -1,0 +1,9 @@
+.cache/
+.idea/
+.pytest_cache/
+*.log
+*__pycache__/
+venv/
+__init__.py
+dd.py
+de.py
