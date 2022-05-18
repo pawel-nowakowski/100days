@@ -1,6 +1,7 @@
 from random import shuffle
 from blackjack_deck import all_cards_dict as acd
 
+
 class GameOfBlackjack:
     def __init__(self, cash, cards, bet):
         self.cash = cash
@@ -26,7 +27,7 @@ class GameOfBlackjack:
         if deck == self.player_cards:
             self.player_score_count()
         elif deck == self.player_cards_split:
-            self.player_score_count('yes') # split is active, the function will count the split
+            self.player_score_count('yes')  # split is active, the function will count the split
         elif deck == self.dealer_cards:
             self.dealer_score_count()
         else:
@@ -104,7 +105,6 @@ class GameOfBlackjack:
                 f"Dealer draws {self.all_cards[self.n - 1]}. Dealer's cards are now {self.dealer_cards} and he"
                 f" has now {self.dealer_score} points.")
 
-
     def blackjack(self):
         self.cash -= self.bet
         shuffle(self.all_cards)
@@ -116,7 +116,6 @@ class GameOfBlackjack:
         self.draw_card(self.dealer_cards)
         self.draw_card(self.player_cards)
 
-
         # allows to do split self.bet if you have a pair
         if self.player_cards[0][0] == self.player_cards[1][0] and self.n == 0:
             split = True
@@ -124,12 +123,13 @@ class GameOfBlackjack:
         print(f"Dealer has {self.dealer_cards} and has {self.dealer_score} points.")
         print(f"You have {self.player_cards} and you have {self.player_score} points.")
 
-        print(self.all_cards) # DELETE
+        print(self.all_cards)  # DELETE
         while game_on:
             action = input(
-                (f"What do you want to do?\n Type 'hit', 'stand'{', double down' if len(self.player_cards) == 2 else ''}"
-                 f"{', split' if split is True else ''}"
-                 f"{', insurance' if 'A' in self.dealer_cards[0] and len(self.dealer_cards) == 1 else ''}: ")).lower()
+                (
+                    f"What do you want to do?\n Type 'hit', 'stand'{', double down' if len(self.player_cards) == 2 else ''}"
+                    f"{', split' if split is True else ''}"
+                    f"{', insurance' if 'A' in self.dealer_cards[0] and len(self.dealer_cards) == 1 else ''}: ")).lower()
 
             # hit -> just get a card
             if action == 'hit':
@@ -138,7 +138,7 @@ class GameOfBlackjack:
 
                 self.draw_card(self.player_cards)
 
-                print(f"{self.n} this is n") # DELETE
+                print(f"{self.n} this is n")  # DELETE
 
                 print(
                     f"Dealer draws {self.all_cards[self.n - 2]}. Dealer's cards are now {self.dealer_cards} and he has"
@@ -184,16 +184,17 @@ class GameOfBlackjack:
                 self.draw_card(self.player_cards)
                 self.draw_card(self.player_cards_split)
 
-                double_deck_swap = -1 #  counter for rounds to swap split decks
+                double_deck_swap = -1  # counter for rounds to swap split decks
                 while split:
                     print(
                         f"Dealer draws {self.all_cards[self.n - 3]}. Dealer's cards are now {self.dealer_cards} and he has"
                         f" now {self.dealer_score} points.")
-                    print(f"{'You split the hand' if self.n == 6 else ''}\nYour first hand draw is {self.all_cards[self.n - 2]}."
-                          f"Your first hand's cards are now {self.player_cards} and your first hand's score is "
-                          f" {self.player_cards_split}.\nYour second hand draw is {self.all_cards[self.n - 1]}."
-                          f"Your second hand's cards are now {self.player_cards_split} and your first hand's score is "
-                          f" {self.player_score_split}. ")
+                    print(
+                        f"{'You split the hand' if self.n == 6 else ''}\nYour first hand draw is {self.all_cards[self.n - 2]}."
+                        f"Your first hand's cards are now {self.player_cards} and your first hand's score is "
+                        f" {self.player_cards_split}.\nYour second hand draw is {self.all_cards[self.n - 1]}."
+                        f"Your second hand's cards are now {self.player_cards_split} and your first hand's score is "
+                        f" {self.player_score_split}. ")
                     action = input(print(f"What do you want to do?\n Type 'hit', 'stand'"))
 
                     double_deck_swap *= -1
@@ -242,7 +243,6 @@ class GameOfBlackjack:
         if self.cash == 0:
             print("You don't have any more money.")
         return self.cash
-
 
     # win condition
     def win(self, action_command=None):

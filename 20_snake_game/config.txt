@@ -1,0 +1,7 @@
+move_up=Up
+move_down=Down
+move_left=Left
+move_right=Right
+high_score=9
+screen_width=600
+screen_height=600
