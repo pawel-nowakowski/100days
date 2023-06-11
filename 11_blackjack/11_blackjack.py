@@ -27,7 +27,9 @@ class GameOfBlackjack:
         if deck == self.player_cards:
             self.player_score_count()
         elif deck == self.player_cards_split:
-            self.player_score_count('yes')  # split is active, the function will count the split
+            self.player_score_count(
+                "yes"
+            )  # split is active, the function will count the split
         elif deck == self.dealer_cards:
             self.dealer_score_count()
         else:
@@ -72,7 +74,9 @@ class GameOfBlackjack:
                     self.player_score_split = 0
                 if self.player_score_split == 0:
                     for i in range(len(self.player_cards)):
-                        self.player_score_split += self.all_cards_dict[self.player_cards_split[-1]]
+                        self.player_score_split += self.all_cards_dict[
+                            self.player_cards_split[-1]
+                        ]
 
     def dealer_score_count(self):
         self.dealer_score += self.all_cards_dict[self.dealer_cards[-1]]
@@ -103,7 +107,8 @@ class GameOfBlackjack:
             self.draw_card(self.dealer_cards)
             print(
                 f"Dealer draws {self.all_cards[self.n - 1]}. Dealer's cards are now {self.dealer_cards} and he"
-                f" has now {self.dealer_score} points.")
+                f" has now {self.dealer_score} points."
+            )
 
     def blackjack(self):
         self.cash -= self.bet
@@ -123,36 +128,43 @@ class GameOfBlackjack:
         print(f"Dealer has {self.dealer_cards} and has {self.dealer_score} points.")
         print(f"You have {self.player_cards} and you have {self.player_score} points.")
 
-        print(self.all_cards)  # DELETE
+        if self.player_score == 21:
+            self.win()
+
+        #print(self.all_cards)  # DELETE
         while game_on:
             action = input(
                 (
                     f"What do you want to do?\n Type 'hit', 'stand'{', double down' if len(self.player_cards) == 2 else ''}"
                     f"{', split' if split is True else ''}"
-                    f"{', insurance' if 'A' in self.dealer_cards[0] and len(self.dealer_cards) == 1 else ''}: ")).lower()
+                    f"{', insurance' if 'A' in self.dealer_cards[0] and len(self.dealer_cards) == 1 else ''}: "
+                )
+            ).lower()
 
             # hit -> just get a card
-            if action == 'hit':
+            if action == "hit":
                 if self.dealer_score < 17:
                     self.draw_card(self.dealer_cards)
 
                 self.draw_card(self.player_cards)
 
-                print(f"{self.n} this is n")  # DELETE
+                #print(f"{self.n} this is n")  # DELETE
 
                 print(
                     f"Dealer draws {self.all_cards[self.n - 2]}. Dealer's cards are now {self.dealer_cards} and he has"
-                    f" now {self.dealer_score} points.")
+                    f" now {self.dealer_score} points."
+                )
                 print(
                     f"You draw {self.all_cards[self.n - 1]}. Your cards are now {self.player_cards} and you have now"
-                    f" {self.player_score} points.")
+                    f" {self.player_score} points."
+                )
 
                 # stand -> finish getting a cards
-            elif action == 'stand' or self.player_score == 21:
+            elif action == "stand" or self.player_score == 21:
                 self.dealer_last_stand()
 
                 # double down -> double your self.bet, only possible for the first 2 cards and the next one is the last one.
-            elif action == 'double down' and len(self.player_cards) == 2:
+            elif action == "double down" and len(self.player_cards) == 2:
                 self.cash -= self.bet
                 self.bet = 2 * self.bet
 
@@ -161,15 +173,17 @@ class GameOfBlackjack:
 
                 print(
                     f"Dealer draws {self.all_cards[self.n - 2]}. Dealer's cards are now {self.dealer_cards} and he has now "
-                    f"{self.dealer_score} points.")
+                    f"{self.dealer_score} points."
+                )
                 print(
                     f"You draw {self.all_cards[self.n - 1]}. Your cards are now {self.player_cards}. You doubled down on "
-                    f"your self.bet and you have now {self.player_score} points.")
+                    f"your {self.bet} and you have now {self.player_score} points."
+                )
                 self.dealer_last_stand()
 
                 # split -> if you have 2 the same cards, you can split them and take 2 extra self.bets
                 # during split you draw cards for both decks
-            elif action == 'split' and split is True:
+            elif action == "split" and split is True:
                 # during split you hit with your first hand and then second one
                 # fix this, it automatically hits both hands
 
@@ -188,17 +202,21 @@ class GameOfBlackjack:
                 while split:
                     print(
                         f"Dealer draws {self.all_cards[self.n - 3]}. Dealer's cards are now {self.dealer_cards} and he has"
-                        f" now {self.dealer_score} points.")
+                        f" now {self.dealer_score} points."
+                    )
                     print(
                         f"{'You split the hand' if self.n == 6 else ''}\nYour first hand draw is {self.all_cards[self.n - 2]}."
                         f"Your first hand's cards are now {self.player_cards} and your first hand's score is "
                         f" {self.player_cards_split}.\nYour second hand draw is {self.all_cards[self.n - 1]}."
                         f"Your second hand's cards are now {self.player_cards_split} and your first hand's score is "
-                        f" {self.player_score_split}. ")
-                    action = input(print(f"What do you want to do?\n Type 'hit', 'stand'"))
+                        f" {self.player_score_split}. "
+                    )
+                    action = input(
+                        print(f"What do you want to do?\n Type 'hit', 'stand'")
+                    )
 
                     double_deck_swap *= -1
-                    if action == 'hit':
+                    if action == "hit":
                         if double_deck_swap == 1:
                             self.draw_card(self.player_cards)
                         elif double_deck_swap == -1:
@@ -208,20 +226,25 @@ class GameOfBlackjack:
                             if self.dealer_score < 17:
                                 self.draw_card(self.dealer_cards)
 
-                    elif action == 'stand':
+                    elif action == "stand":
                         self.dealer_last_stand()
                         split = False
                     else:
                         input("You passed the wrong command.")
                         continue
 
-            elif action == 'insurance' and 'A' in self.dealer_cards[0] and len(self.dealer_cards) == 1:
+            elif (
+                action == "insurance"
+                and "A" in self.dealer_cards[0]
+                and len(self.dealer_cards) == 1
+            ):
                 self.cash -= self.bet
                 print("You have taken an insurance.")
                 self.draw_card(self.dealer_cards)
                 print(
                     f"Dealer draws {self.all_cards[self.n - 1]}. Dealer's cards are now {self.dealer_cards} and he has"
-                    f" now {self.dealer_score} points.")
+                    f" now {self.dealer_score} points."
+                )
                 if self.dealer_score == 21:
                     print(f"You lost. You take {2 * self.bet}$ for insurance.")
                     self.cash += 2 * self.bet
@@ -229,7 +252,8 @@ class GameOfBlackjack:
                     self.draw_card(self.player_cards)
                     print(
                         f"Dealer draws {self.all_cards[self.n - 2]}. Dealer's cards are now {self.dealer_cards} and he has"
-                        f" now {self.dealer_score} points.")
+                        f" now {self.dealer_score} points."
+                    )
             else:
                 print("Incorrect command.")
                 continue
@@ -264,7 +288,7 @@ class GameOfBlackjack:
             self.cash += self.bet * 2
             print("You hit the blackjack! You won.")
             game_on = False
-        elif self.dealer_score > 21:
+        elif self.dealer_score == 21:
             print("Dealer hit the blackjack. You lost.")
             game_on = False
         elif score > 21:
@@ -278,12 +302,16 @@ class GameOfBlackjack:
             self.cash += self.bet
             print(f"You and dealer have {score} points. It's a draw.")
             game_on = False
-        elif score > self.dealer_score and action_command == 'stand':
+        elif score > self.dealer_score and action_command == "stand":
             self.cash += self.bet * 2
-            print(f"You have {score} points. You have {score - self.dealer_score} more points. You won.")
+            print(
+                f"You have {score} points. You have {score - self.dealer_score} more points. You won."
+            )
             game_on = False
-        elif score < self.dealer_score and action_command == 'stand':
-            print(f"Dealer has {self.dealer_score} points. You have {self.dealer_score - score} less points. You lost.")
+        elif score < self.dealer_score and action_command == "stand":
+            print(
+                f"Dealer has {self.dealer_score} points. You have {self.dealer_score - score} less points. You lost."
+            )
             game_on = False
         return game_on
 
@@ -293,8 +321,10 @@ bj = GameOfBlackjack(your_cash, acd, 0)
 your_cash = bj.cash
 print(f"You start with {your_cash}$.")
 while your_cash > 0:
-    your_bet = input(f"You have {your_cash}$. Type how much you want to bet or type 'exit' to quit: ")
-    if your_bet == 'exit':
+    your_bet = input(
+        f"You have {your_cash}$. Type how much you want to bet or type 'exit' to quit: "
+    )
+    if your_bet == "exit":
         print(f"You finish the game with {your_cash}$")
         break
     try:
